@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Prediction</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Container for the form */
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff0000; /* Red heading */
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        /* Form styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input[type="number"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Result and error styling */
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            background-color: #e6f3ff; /* Light blue base */
+            color: #004085; /* Dark blue text */
+            border: 2px solid #007bff; /* Blue border */
+            position: relative;
+            overflow: hidden;
+            animation: fireworkBurst 1.5s ease-out forwards;
+        }
+
+        /* Firework animation keyframes */
+        @keyframes fireworkBurst {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); /* Gold sparkle */
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+                box-shadow: 0 0 20px 10px rgba(255, 69, 0, 0.7), /* Orange-red burst */
+                           0 0 40px 20px rgba(255, 215, 0, 0.5); /* Gold flare */
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 10px 5px rgba(0, 191, 255, 0.3); /* Blue fade */
+            }
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            .result {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Performance Prediction</h1>
+        <form method="POST" action="/predictdata">
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+            </select>
+
+            <label for="ethnicity">Race/Ethnicity:</label>
+            <select name="ethnicity" id="ethnicity" required>
+                <option value="" disabled selected>Select Ethnicity</option>
+                <option value="group A">Group A</option>
+                <option value="group B">Group B</option>
+                <option value="group C">Group C</option>
+                <option value="group D">Group D</option>
+                <option value="group E">Group E</option>
+            </select>
+
+            <label for="parental_level_of_education">Parental Level of Education:</label>
+            <select name="parental_level_of_education" id="parental_level_of_education" required>
+                <option value="" disabled selected>Select Education Level</option>
+                <option value="bachelor's degree">Bachelor's Degree</option>
+                <option value="some college">Some College</option>
+                <option value="master's degree">Master's Degree</option>
+                <option value="associate's degree">Associate's Degree</option>
+                <option value="high school">High School</option>
+                <option value="some high school">Some High School</option>
+            </select>
+
+            <label for="lunch">Lunch:</label>
+            <select name="lunch" id="lunch" required>
+                <option value="" disabled selected>Select Lunch Type</option>
+                <option value="standard">Standard</option>
+                <option value="free/reduced">Free/Reduced</option>
+            </select>
+
+            <label for="test_preparation_course">Test Preparation Course:</label>
+            <select name="test_preparation_course" id="test_preparation_course" required>
+                <option value="" disabled selected>Select Course Status</option>
+                <option value="none">None</option>
+                <option value="completed">Completed</option>
+            </select>
+
+            <label for="reading_score">Reading Score:</label>
+            <input type="number" name="reading_score" id="reading_score" min="0" max="100" required placeholder="Enter score (0-100)">
+
+            <label for="writing_score">Writing Score:</label>
+            <input type="number" name="writing_score" id="writing_score" min="0" max="100" required placeholder="Enter score (0-100)">
+
+            <input type="submit" value="Predict Math Score">
+        </form>
+
+        {% if results is defined %}
+            <div class="result">
+                Predicted Math Score: {{ results | round(2) }}
+            </div>
+        {% endif %}
+
+        {% if error is defined %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
